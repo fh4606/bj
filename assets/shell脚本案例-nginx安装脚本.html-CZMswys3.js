@@ -1,0 +1,93 @@
+import{_ as n}from"./plugin-vue_export-helper-DlAUqK2U.js";import{c as s,o as a,d as i}from"./app-cGHsJGw-.js";const e={},l=i(`<h2 id="案例需求" tabindex="-1"><a class="header-anchor" href="#案例需求"><span>案例需求</span></a></h2><p>通过shell脚本安装nginx</p><h2 id="应用场景" tabindex="-1"><a class="header-anchor" href="#应用场景"><span>应用场景</span></a></h2><p>web服务器业务初始化</p><h2 id="案例思路" tabindex="-1"><a class="header-anchor" href="#案例思路"><span>案例思路</span></a></h2><p>1、软件获得 2、源码安装</p><h2 id="案例代码" tabindex="-1"><a class="header-anchor" href="#案例代码"><span>案例代码</span></a></h2><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" data-title="" style="--shiki-light:#24292e;--shiki-dark:#abb2bf;--shiki-light-bg:#fff;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes github-light one-dark-pro vp-code"><code><span class="line"><span>#!/bin/bash</span></span>
+<span class="line"><span>#Description: nginx install script from zutuanxue(http://www.zutuanxue.com)</span></span>
+<span class="line"><span>#Release: 1.0</span></span>
+<span class="line"><span>#Auther: www.zutuanxue.com</span></span>
+<span class="line"><span>#Email: </span></span>
+<span class="line"><span>#OS: Centos 8.X</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>cat &lt;&lt;EOF</span></span>
+<span class="line"><span>#Description: nginx install script from zutuanxue(http://www.zutuanxue.com)</span></span>
+<span class="line"><span>#Release: 1.0</span></span>
+<span class="line"><span>#Auther: www.zutuanxue.com</span></span>
+<span class="line"><span>#Email: </span></span>
+<span class="line"><span>#OS: Centos 8.X</span></span>
+<span class="line"><span>EOF</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#nginx源码包下载路径</span></span>
+<span class="line"><span>nginx_pkg_url=http://nginx.org/download/nginx-1.17.8.tar.gz</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#nginx安装路径,安装路径为$nginx_install_doc/nginx</span></span>
+<span class="line"><span>nginx_install_doc=/usr/local</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#nginx服务管理用户</span></span>
+<span class="line"><span>nginx_manage_user=www</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#统计本机CPU核数</span></span>
+<span class="line"><span>cpu_count=\`grep -c &quot;flags&quot; /proc/cpuinfo\`</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>check ()  {</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#安装nginx需要管理员权限	</span></span>
+<span class="line"><span>[ $UID -ne 0 ] &amp;&amp; echo &quot;need to be root so that&quot; &amp;&amp; exit 1</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#安装前的依赖包解决</span></span>
+<span class="line"><span>#wget 命令</span></span>
+<span class="line"><span>#gcc  编译命令</span></span>
+<span class="line"><span>#pcre-devel  URL重写功能</span></span>
+<span class="line"><span>#zlib-devel  压缩支持</span></span>
+<span class="line"><span>#make  编译命令</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>if ! (yum -y install wget gcc pcre-devel zlib-devel make &amp;&gt;/dev/null);then</span></span>
+<span class="line"><span>	echo &quot;yum install soft package fail&quot;</span></span>
+<span class="line"><span>        exit 1</span></span>
+<span class="line"><span>fi	</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>if ! (egrep &quot;^www&quot; /etc/passwd &amp;&gt;/dev/null);then</span></span>
+<span class="line"><span>	useradd -s /sbin/nologin -r -M www</span></span>
+<span class="line"><span>fi</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>nginx_install () {</span></span>
+<span class="line"><span>#1、下载软件包</span></span>
+<span class="line"><span>#if wget $nginx_pkg_url &amp;&gt;/dev/null;then</span></span>
+<span class="line"><span>	#2、解压软件包</span></span>
+<span class="line"><span>	echo $nginx_pkg_url|awk -F &quot;/&quot; &#39;{print $5}&#39;|xargs tar xf</span></span>
+<span class="line"><span>	nginx_source_doc=\`echo $nginx_pkg_url|awk -F &quot;/&quot; &#39;{print $5}&#39;|cut -d &quot;.&quot; -f 1-3\`</span></span>
+<span class="line"><span>	#3、进入软件包</span></span>
+<span class="line"><span>  	if [ ! -d $nginx_source_doc ];then</span></span>
+<span class="line"><span>	  echo &quot;unzip \`echo $nginx_pkg_url|awk -F &quot;/&quot; &#39;{print $5}&#39;\` fail&quot;</span></span>
+<span class="line"><span>          exit 1</span></span>
+<span class="line"><span>        fi	  </span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>	cd $nginx_source_doc</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>	#4、configure nginx</span></span>
+<span class="line"><span>	./configure --prefix=$nginx_install_doc/nginx --user=$nginx_manage_user --group=$nginx_manage_user 1&gt;/dev/null</span></span>
+<span class="line"><span>	[ $? -ne 0 ]&amp;&amp;echo &quot;nginx configure fail&quot;&amp;&amp;exit 1</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>	#5、make nginx</span></span>
+<span class="line"><span>	make -j $cpu_count 1&gt;/dev/null</span></span>
+<span class="line"><span>	[ $? -ne 0 ]&amp;&amp;echo &quot;nginx make fail&quot;&amp;&amp;exit 1</span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>        #6、install nginx</span></span>
+<span class="line"><span>	make install 1&gt;/dev/null</span></span>
+<span class="line"><span>	[ $? -ne 0 ]&amp;&amp;echo &quot;nginx install fail&quot;&amp;&amp;exit 1||echo &quot;\`clear\`nginx install success...&quot;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>	#7、delete nginx soft package</span></span>
+<span class="line"><span>	cd ..</span></span>
+<span class="line"><span>	rm -rf \${nginx_source_doc}*</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#else</span></span>
+<span class="line"><span>#   echo &quot;$nginx_pkg_url download fail&quot;</span></span>
+<span class="line"><span>#   exit 1</span></span>
+<span class="line"><span>#fi   </span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>	</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#####callable function</span></span>
+<span class="line"><span>check;nginx_install</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div>`,8),p=[l];function c(d,t){return a(),s("div",null,p)}const u=n(e,[["render",c],["__file","shell脚本案例-nginx安装脚本.html.vue"]]),m=JSON.parse('{"path":"/note/shell/shell%E8%84%9A%E6%9C%AC%E6%A1%88%E4%BE%8B-nginx%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC.html","title":"35-案例-nginx安装脚本","lang":"zh-CN","frontmatter":{"title":"35-案例-nginx安装脚本","order":35,"icon":"lightbulb","description":"案例需求 通过shell脚本安装nginx 应用场景 web服务器业务初始化 案例思路 1、软件获得 2、源码安装 案例代码","head":[["meta",{"property":"og:url","content":"https://vuepress-theme-hope-docs-demo.netlify.app/vuepress/note/shell/shell%E8%84%9A%E6%9C%AC%E6%A1%88%E4%BE%8B-nginx%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC.html"}],["meta",{"property":"og:site_name","content":"风华"}],["meta",{"property":"og:title","content":"35-案例-nginx安装脚本"}],["meta",{"property":"og:description","content":"案例需求 通过shell脚本安装nginx 应用场景 web服务器业务初始化 案例思路 1、软件获得 2、源码安装 案例代码"}],["meta",{"property":"og:type","content":"article"}],["meta",{"property":"og:locale","content":"zh-CN"}],["meta",{"property":"article:author","content":"风华"}],["script",{"type":"application/ld+json"},"{\\"@context\\":\\"https://schema.org\\",\\"@type\\":\\"Article\\",\\"headline\\":\\"35-案例-nginx安装脚本\\",\\"image\\":[\\"\\"],\\"dateModified\\":null,\\"author\\":[{\\"@type\\":\\"Person\\",\\"name\\":\\"风华\\",\\"url\\":\\"/portfolio\\"}]}"]]},"headers":[{"level":2,"title":"案例需求","slug":"案例需求","link":"#案例需求","children":[]},{"level":2,"title":"应用场景","slug":"应用场景","link":"#应用场景","children":[]},{"level":2,"title":"案例思路","slug":"案例思路","link":"#案例思路","children":[]},{"level":2,"title":"案例代码","slug":"案例代码","link":"#案例代码","children":[]}],"git":{},"readingTime":{"minutes":1.25,"words":376},"filePathRelative":"note/shell/shell脚本案例-nginx安装脚本.md","autoDesc":true}');export{u as comp,m as data};
