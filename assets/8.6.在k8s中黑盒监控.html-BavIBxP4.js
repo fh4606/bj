@@ -1,0 +1,107 @@
+import{_ as s}from"./plugin-vue_export-helper-DlAUqK2U.js";import{c as n,o as a,d as e}from"./app-CdRwZrpj.js";const i="/assets/2023-10-28_210710_5411450.3223706757290019-QmxLhuwk.png",l="/assets/2023-10-28_210711_1244260.6323081542224158-DdzEFFVu.png",p="/assets/2023-10-28_210711_2294630.39672141614523393-Bu7Q79ko.png",t="/assets/2023-10-28_210448_0344880.6239992097474373-C9Ts4dJW.png",r={},d=e(`<h1 id="一、环境" tabindex="-1"><a class="header-anchor" href="#一、环境"><span>一、环境</span></a></h1><table id="01409c3a" class="ne-table" style="table-layout:fixed;border-collapse:collapse;border:1px solid #d9d9d9;width:748px;"><tbody><tr style="height:33px;"><td width="187" style="border:1px solid #d9d9d9;"><p id="u2cba19e0" class="ne-p" style="margin:0;padding:0;min-height:24px;"><span class="ne-text">主机名</span></p></td><td width="187" style="border:1px solid #d9d9d9;"><p id="ue5673c16" class="ne-p" style="margin:0;padding:0;min-height:24px;"><span class="ne-text">IP地址</span></p></td><td width="187" style="border:1px solid #d9d9d9;"><p id="u0e6cea0c" class="ne-p" style="margin:0;padding:0;min-height:24px;"><span class="ne-text">系统</span></p></td><td width="187" style="border:1px solid #d9d9d9;"><p id="u70848379" class="ne-p" style="margin:0;padding:0;min-height:24px;"><span class="ne-text">说明</span></p></td></tr><tr style="height:33px;"><td width="187" style="border:1px solid #d9d9d9;"><p id="u1d0b6de7" class="ne-p" style="margin:0;padding:0;min-height:24px;"><span class="ne-text">k8s</span></p></td><td width="187" style="border:1px solid #d9d9d9;"><p id="ub7f26c06" class="ne-p" style="margin:0;padding:0;min-height:24px;"><span class="ne-text">192.168.11.65</span></p></td><td width="187" style="border:1px solid #d9d9d9;"><p id="u9f76d5f2" class="ne-p" style="margin:0;padding:0;min-height:24px;"><span class="ne-text">Ubuntu 20.04</span></p></td><td width="187" style="border:1px solid #d9d9d9;"><p id="u2119e4d4" class="ne-p" style="margin:0;padding:0;min-height:24px;"><span class="ne-text">k8s版本：v1.23.10 单机版本</span></p></td></tr></tbody></table><h1 id="二、黑盒监控" tabindex="-1"><a class="header-anchor" href="#二、黑盒监控"><span>二、黑盒监控</span></a></h1><h2 id="_1、安装blackbox-exporter" tabindex="-1"><a class="header-anchor" href="#_1、安装blackbox-exporter"><span>1、安装blackbox-exporter</span></a></h2><h3 id="使用helm安装" tabindex="-1"><a class="header-anchor" href="#使用helm安装"><span>使用helm安装</span></a></h3><p>通过 prometheus-community仓库下载</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" data-title="" style="--shiki-light:#24292e;--shiki-dark:#abb2bf;--shiki-light-bg:#fff;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes github-light one-dark-pro vp-code"><code><span class="line"><span>helm search repo prometheus-community|grep prometheus-blackbox-exporter</span></span>
+<span class="line"><span>helm fetch prometheus-community/prometheus-blackbox-exporter</span></span>
+<span class="line"><span>tar xf prometheus-blackbox-exporter-7.6.1.tgz</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>通过wget下载</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" data-title="" style="--shiki-light:#24292e;--shiki-dark:#abb2bf;--shiki-light-bg:#fff;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes github-light one-dark-pro vp-code"><code><span class="line"><span>wget https://github.com/prometheus-community/helm-charts/releases/download/prometheus-blackbox-exporter-7.6.1/prometheus-blackbox-exporter-7.6.1.tgz </span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>tar xf prometheus-blackbox-exporter-7.6.1.tgz </span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>grep -A 2 &#39;image:&#39; prometheus-blackbox-exporter/*</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#不用替换</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="修改配置文件" tabindex="-1"><a class="header-anchor" href="#修改配置文件"><span>修改配置文件</span></a></h3><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" data-title="" style="--shiki-light:#24292e;--shiki-dark:#abb2bf;--shiki-light-bg:#fff;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes github-light one-dark-pro vp-code"><code><span class="line"><span>vim prometheus-blackbox-exporter/values.yaml</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div></div></div><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" data-title="" style="--shiki-light:#24292e;--shiki-dark:#abb2bf;--shiki-light-bg:#fff;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes github-light one-dark-pro vp-code"><code><span class="line"><span>config:</span></span>
+<span class="line"><span>  modules:</span></span>
+<span class="line"><span>    tcp_connect:</span></span>
+<span class="line"><span>      prober: tcp</span></span>
+<span class="line"><span>    icmp:</span></span>
+<span class="line"><span>      prober: icmp</span></span>
+<span class="line"><span>serviceMonitor:</span></span>
+<span class="line"><span>  enabled: true</span></span>
+<span class="line"><span>  defaults:</span></span>
+<span class="line"><span>    labels:</span></span>
+<span class="line"><span>      release: prometheus</span></span>
+<span class="line"><span>  targets:</span></span>
+<span class="line"><span>    - name: baidu.com</span></span>
+<span class="line"><span>      url: https://baidu.com</span></span>
+<span class="line"><span>    #- name: xxx</span></span>
+<span class="line"><span>    #  url: xxxservice.namespace名称.svc.cluster.local:port/actuator/health</span></span>
+<span class="line"><span>    - name: tcp-mysql</span></span>
+<span class="line"><span>      url: mysql.default.svc.cluster.local:3306</span></span>
+<span class="line"><span>      module: tcp_connect</span></span>
+<span class="line"><span>    - name: icmp-localhost</span></span>
+<span class="line"><span>      url: 127.0.0.1</span></span>
+<span class="line"><span>      module: icmp</span></span>
+<span class="line"><span>#告警规则（触发器）      </span></span>
+<span class="line"><span>prometheusRule:</span></span>
+<span class="line"><span>  enabled: true</span></span>
+<span class="line"><span>  additionalLabels:</span></span>
+<span class="line"><span>    release: prometheus</span></span>
+<span class="line"><span>  namespace: &quot;&quot;</span></span>
+<span class="line"><span>  rules:</span></span>
+<span class="line"><span>  - alert: 黑盒子探测失败告警</span></span>
+<span class="line"><span>    expr: probe_success == 0</span></span>
+<span class="line"><span>    for: 1m</span></span>
+<span class="line"><span>    labels:</span></span>
+<span class="line"><span>      severity: critical</span></span>
+<span class="line"><span>    annotations:</span></span>
+<span class="line"><span>      summary: &quot;黑盒子探测失败{{ $labels.instance }}&quot;</span></span>
+<span class="line"><span>      description: &quot;黑盒子检测失败，当前值：{{ $value }}&quot;</span></span>
+<span class="line"><span>  - alert: 请求慢告警</span></span>
+<span class="line"><span>    expr: avg_over_time(probe_duration_seconds[1m]) &gt; 1</span></span>
+<span class="line"><span>    for: 1m</span></span>
+<span class="line"><span>    labels:</span></span>
+<span class="line"><span>      severity: warning</span></span>
+<span class="line"><span>    annotations:</span></span>
+<span class="line"><span>      summary: &quot;请求慢{{ $labels.instance }}&quot;</span></span>
+<span class="line"><span>      description: &quot;请求时间超过1秒，值为：{{ $value }}&quot;</span></span>
+<span class="line"><span>  - alert: http状态码检测失败</span></span>
+<span class="line"><span>    expr: probe_http_status_code &lt;= 199 OR probe_http_status_code &gt;= 400</span></span>
+<span class="line"><span>    for: 1m</span></span>
+<span class="line"><span>    labels:</span></span>
+<span class="line"><span>      severity: critical</span></span>
+<span class="line"><span>    annotations:</span></span>
+<span class="line"><span>      summary: &quot;http状态码检测失败{{ $labels.instance }}&quot;</span></span>
+<span class="line"><span>      description: &quot;HTTP状态码非 200-399，当前状态码为：{{ $value }}&quot;</span></span>
+<span class="line"><span>  - alert: ssl证书即将到期</span></span>
+<span class="line"><span>    expr: probe_ssl_earliest_cert_expiry - time() &lt; 86400 * 30</span></span>
+<span class="line"><span>    for: 1m</span></span>
+<span class="line"><span>    labels:</span></span>
+<span class="line"><span>      severity: warning</span></span>
+<span class="line"><span>    annotations:</span></span>
+<span class="line"><span>      summary: &quot;证书即将到期{{ $labels.instance }}&quot;</span></span>
+<span class="line"><span>      description: &quot;SSL 证书在 30 天后到期，值：{{ $value }}&quot;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  - alert: ssl证书即将到期</span></span>
+<span class="line"><span>    expr: probe_ssl_earliest_cert_expiry - time() &lt; 86400 * 3</span></span>
+<span class="line"><span>    for: 1m</span></span>
+<span class="line"><span>    labels:</span></span>
+<span class="line"><span>      severity: critical</span></span>
+<span class="line"><span>    annotations:</span></span>
+<span class="line"><span>      summary: &quot;证书即将到期{{ $labels.instance }}&quot;</span></span>
+<span class="line"><span>      description: &quot;SSL 证书在 3 天后到期，值：{{ $value }}&quot;</span></span>
+<span class="line"><span>  - alert: ssl证书已过期</span></span>
+<span class="line"><span>    expr: probe_ssl_earliest_cert_expiry - time() &lt;= 0</span></span>
+<span class="line"><span>    for: 1m</span></span>
+<span class="line"><span>    labels:</span></span>
+<span class="line"><span>      severity: critical</span></span>
+<span class="line"><span>    annotations:</span></span>
+<span class="line"><span>      summary: &quot;证书已过期{{ $labels.instance }}&quot;</span></span>
+<span class="line"><span>      description: &quot;SSL 证书已经过期，请确认是否在使用&quot;</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="安装blackbox-exporter" tabindex="-1"><a class="header-anchor" href="#安装blackbox-exporter"><span>安装blackbox-exporter</span></a></h3><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" data-title="" style="--shiki-light:#24292e;--shiki-dark:#abb2bf;--shiki-light-bg:#fff;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes github-light one-dark-pro vp-code"><code><span class="line"><span>helm install -n monitoring --create-namespace prometheus-blackbox-exporter prometheus-blackbox-exporter</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div></div></div><p>如果修改了配置文件</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" data-title="" style="--shiki-light:#24292e;--shiki-dark:#abb2bf;--shiki-light-bg:#fff;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes github-light one-dark-pro vp-code"><code><span class="line"><span>helm -n monitoring upgrade prometheus-blackbox-exporter prometheus-blackbox-exporter</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div></div></div><h3 id="检查" tabindex="-1"><a class="header-anchor" href="#检查"><span>检查</span></a></h3><p>通过curl检查</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" data-title="" style="--shiki-light:#24292e;--shiki-dark:#abb2bf;--shiki-light-bg:#fff;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes github-light one-dark-pro vp-code"><code><span class="line"><span>curl http://10.233.55.233:9115/probe?target=https://www.baidu.com&amp;module=http_2xx</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div></div></div><p>检查配置</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" data-title="" style="--shiki-light:#24292e;--shiki-dark:#abb2bf;--shiki-light-bg:#fff;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes github-light one-dark-pro vp-code"><code><span class="line"><span>root@k8s:~# kubectl -n monitoring get cm prometheus-blackbox-exporter -o yaml</span></span>
+<span class="line"><span>apiVersion: v1</span></span>
+<span class="line"><span>data:</span></span>
+<span class="line"><span>  blackbox.yaml: |</span></span>
+<span class="line"><span>    modules:</span></span>
+<span class="line"><span>      http_2xx:</span></span>
+<span class="line"><span>        http:</span></span>
+<span class="line"><span>          follow_redirects: true</span></span>
+<span class="line"><span>          preferred_ip_protocol: ip4</span></span>
+<span class="line"><span>          valid_http_versions:</span></span>
+<span class="line"><span>          - HTTP/1.1</span></span>
+<span class="line"><span>          - HTTP/2.0</span></span>
+<span class="line"><span>        prober: http</span></span>
+<span class="line"><span>        timeout: 5s</span></span>
+<span class="line"><span>      icmp:</span></span>
+<span class="line"><span>        prober: icmp</span></span>
+<span class="line"><span>      tcp_connect:</span></span>
+<span class="line"><span>        prober: tcp</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" data-title="" style="--shiki-light:#24292e;--shiki-dark:#abb2bf;--shiki-light-bg:#fff;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes github-light one-dark-pro vp-code"><code><span class="line"><span>root@k8s:~# kubectl get servicemonitors -n monitoring</span></span>
+<span class="line"><span>NAME                                                 AGE</span></span>
+<span class="line"><span>prometheus-blackbox-exporter-baidu.com               3m19s</span></span>
+<span class="line"><span>prometheus-blackbox-exporter-icmp-localhost              3m19s</span></span>
+<span class="line"><span>prometheus-blackbox-exporter-tcp-mysql               3m19s</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>检查配置</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" data-title="" style="--shiki-light:#24292e;--shiki-dark:#abb2bf;--shiki-light-bg:#fff;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes github-light one-dark-pro vp-code"><code><span class="line"><span>kubectl get prometheusrules prometheus-blackbox-exporter  -n monitoring -oyaml</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div></div></div><p>检查targets</p><figure><img src="`+i+'" alt="" tabindex="0" loading="lazy"><figcaption></figcaption></figure><p>检查数据</p><figure><img src="'+l+'" alt="" tabindex="0" loading="lazy"><figcaption></figcaption></figure><p>检查触发器</p><p><a href="http://192.168.11.65:9090/alerts?search=" target="_blank" rel="noopener noreferrer">http://192.168.11.65:9090/alerts?search=</a></p><figure><img src="'+p+'" alt="" tabindex="0" loading="lazy"><figcaption></figcaption></figure><h2 id="_3、grafama导入dashboard" tabindex="-1"><a class="header-anchor" href="#_3、grafama导入dashboard"><span>3、grafama导入dashboard</span></a></h2><p>id：<code>13659</code></p><h1 id="三、我的微信" tabindex="-1"><a class="header-anchor" href="#三、我的微信"><span>三、我的微信</span></a></h1><p>如果碰到问题，可以随时加我微信，谢谢</p><figure><img src="'+t+'" alt="" tabindex="0" loading="lazy"><figcaption></figcaption></figure>',36),c=[d];function o(b,m){return a(),n("div",null,c)}const v=s(r,[["render",o],["__file","8.6.在k8s中黑盒监控.html.vue"]]),g=JSON.parse('{"path":"/note/Prometheus/8.6.%E5%9C%A8k8s%E4%B8%AD%E9%BB%91%E7%9B%92%E7%9B%91%E6%8E%A7.html","title":"8.6.在k8s中黑盒监控","lang":"zh-CN","frontmatter":{"title":"8.6.在k8s中黑盒监控","order":48,"icon":"lightbulb","description":"一、环境 二、黑盒监控 1、安装blackbox-exporter 使用helm安装 通过 prometheus-community仓库下载 通过wget下载 修改配置文件 安装blackbox-exporter 如果修改了配置文件 检查 通过curl检查 检查配置 检查配置 检查targets 检查数据 检查触发器 http://192.168.11...","head":[["meta",{"property":"og:url","content":"https://vuepress-theme-hope-docs-demo.netlify.app/note/Prometheus/8.6.%E5%9C%A8k8s%E4%B8%AD%E9%BB%91%E7%9B%92%E7%9B%91%E6%8E%A7.html"}],["meta",{"property":"og:site_name","content":"风华"}],["meta",{"property":"og:title","content":"8.6.在k8s中黑盒监控"}],["meta",{"property":"og:description","content":"一、环境 二、黑盒监控 1、安装blackbox-exporter 使用helm安装 通过 prometheus-community仓库下载 通过wget下载 修改配置文件 安装blackbox-exporter 如果修改了配置文件 检查 通过curl检查 检查配置 检查配置 检查targets 检查数据 检查触发器 http://192.168.11..."}],["meta",{"property":"og:type","content":"article"}],["meta",{"property":"og:locale","content":"zh-CN"}],["meta",{"property":"article:author","content":"风华"}],["script",{"type":"application/ld+json"},"{\\"@context\\":\\"https://schema.org\\",\\"@type\\":\\"Article\\",\\"headline\\":\\"8.6.在k8s中黑盒监控\\",\\"image\\":[\\"\\"],\\"dateModified\\":null,\\"author\\":[{\\"@type\\":\\"Person\\",\\"name\\":\\"风华\\",\\"url\\":\\"/portfolio\\"}]}"]]},"headers":[{"level":2,"title":"1、安装blackbox-exporter","slug":"_1、安装blackbox-exporter","link":"#_1、安装blackbox-exporter","children":[{"level":3,"title":"使用helm安装","slug":"使用helm安装","link":"#使用helm安装","children":[]},{"level":3,"title":"修改配置文件","slug":"修改配置文件","link":"#修改配置文件","children":[]},{"level":3,"title":"安装blackbox-exporter","slug":"安装blackbox-exporter","link":"#安装blackbox-exporter","children":[]},{"level":3,"title":"检查","slug":"检查","link":"#检查","children":[]}]},{"level":2,"title":"3、grafama导入dashboard","slug":"_3、grafama导入dashboard","link":"#_3、grafama导入dashboard","children":[]}],"git":{},"readingTime":{"minutes":2.91,"words":874},"filePathRelative":"note/Prometheus/8.6.在k8s中黑盒监控.md","autoDesc":true}');export{v as comp,g as data};
